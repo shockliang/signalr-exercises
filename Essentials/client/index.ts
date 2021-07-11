@@ -4,7 +4,7 @@ var counter = document.getElementById("viewCounter");
 
 // create connection
 let connection = new signalR.HubConnectionBuilder()
-    .withUrl("/hub/view")
+    .withUrl("/hubs/view")
     .build();
 
 // on view update message from client
