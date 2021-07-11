@@ -94,7 +94,19 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar signalR = __webpack_require__(/*! @microsoft/signalr */ \"./node_modules/@microsoft/signalr/dist/esm/index.js\");\nvar counter = document.getElementById(\"viewCounter\");\n// create connection\nvar connection = new signalR.HubConnectionBuilder()\n    .configureLogging(signalR.LogLevel.Trace)\n    .withUrl(\"/hubs/view\")\n    .build();\n// on view update message from client\nconnection.on(\"viewCountUpdate\", function (value) {\n    counter.innerText = value.toString();\n});\n// notify server we're watching\nfunction notify() {\n    connection.send(\"notifyWatching\");\n}\n// start the connection\nfunction startSuccess() {\n    console.log(\"Connected.\");\n    notify();\n}\nfunction startFail() {\n    console.log(\"Connection failed.\");\n}\nconnection.start().then(startSuccess, startFail);\n\n\n//# sourceURL=webpack:///./client/index.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar signalR = __webpack_require__(/*! @microsoft/signalr */ \"./node_modules/@microsoft/signalr/dist/esm/index.js\");\nvar customerLogger_1 = __webpack_require__(/*! ./loggers/customerLogger */ \"./client/loggers/customerLogger.ts\");\nvar counter = document.getElementById(\"viewCounter\");\n// create connection\nvar connection = new signalR.HubConnectionBuilder()\n    // .configureLogging(signalR.LogLevel.Trace)\n    .configureLogging(new customerLogger_1.CustomerLogger())\n    .withUrl(\"/hubs/view\")\n    .build();\n// on view update message from client\nconnection.on(\"viewCountUpdate\", function (value) {\n    counter.innerText = value.toString();\n});\n// notify server we're watching\nfunction notify() {\n    connection.send(\"notifyWatching\");\n}\n// start the connection\nfunction startSuccess() {\n    console.log(\"Connected.\");\n    notify();\n}\nfunction startFail() {\n    console.log(\"Connection failed.\");\n}\nconnection.start().then(startSuccess, startFail);\n\n\n//# sourceURL=webpack:///./client/index.ts?");
+
+/***/ }),
+
+/***/ "./client/loggers/customerLogger.ts":
+/*!******************************************!*\
+  !*** ./client/loggers/customerLogger.ts ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar signalr_1 = __webpack_require__(/*! @microsoft/signalr */ \"./node_modules/@microsoft/signalr/dist/esm/index.js\");\nvar CustomerLogger = /** @class */ (function () {\n    function CustomerLogger() {\n    }\n    CustomerLogger.prototype.log = function (logLevel, message) {\n        console.log(\"[\" + signalr_1.LogLevel[logLevel] + \"]: \" + message);\n    };\n    return CustomerLogger;\n}());\nexports.CustomerLogger = CustomerLogger;\n\n\n//# sourceURL=webpack:///./client/loggers/customerLogger.ts?");
 
 /***/ }),
 

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="client\index.ts" />
+    <TypeScriptCompile Include="client\loggers\customerLogger.ts" />
   </ItemGroup>
 
 </Project>

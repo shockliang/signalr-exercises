@@ -1,10 +1,12 @@
 import * as signalR from "@microsoft/signalr";
+import {CustomerLogger} from "./loggers/customerLogger";
 
 var counter = document.getElementById("viewCounter");
 
 // create connection
 let connection = new signalR.HubConnectionBuilder()
-    .configureLogging(signalR.LogLevel.Trace)
+    // .configureLogging(signalR.LogLevel.Trace)
+    .configureLogging( new CustomerLogger())
     .withUrl("/hubs/view")
     .build();
 
