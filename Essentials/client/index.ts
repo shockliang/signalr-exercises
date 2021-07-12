@@ -1,13 +1,16 @@
 import * as signalR from "@microsoft/signalr";
 import {CustomerLogger} from "./loggers/customerLogger";
 
+// Force disable websocket
+// WebSocket = undefined;
+
 var counter = document.getElementById("viewCounter");
 
 // create connection
 let connection = new signalR.HubConnectionBuilder()
     // .configureLogging(signalR.LogLevel.Trace)
     .configureLogging( new CustomerLogger())
-    .withUrl("/hubs/view")
+    .withUrl("/hubs/view", {transport: signalR.HttpTransportType.LongPolling})
     .build();
 
 // on view update message from client
