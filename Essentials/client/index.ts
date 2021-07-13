@@ -10,7 +10,8 @@ var counter = document.getElementById("viewCounter");
 let connection = new signalR.HubConnectionBuilder()
     // .configureLogging(signalR.LogLevel.Trace)
     .configureLogging( new CustomerLogger())
-    .withUrl("/hubs/view", {transport: signalR.HttpTransportType.LongPolling})
+    .withUrl("/hubs/view", {transport: signalR.HttpTransportType.WebSockets | 
+        signalR.HttpTransportType.ServerSentEvents})
     .build();
 
 // on view update message from client
