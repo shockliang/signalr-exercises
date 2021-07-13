@@ -54,6 +54,7 @@ namespace Essentials
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ViewHub>("/hubs/view");
+                endpoints.MapHub<StringToolsHub>("/hubs/stringtools");
                 // endpoints.MapControllers();
             });
         }

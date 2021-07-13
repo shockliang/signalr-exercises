@@ -5,14 +5,26 @@ import {CustomerLogger} from "./loggers/customerLogger";
 // WebSocket = undefined;
 
 var counter = document.getElementById("viewCounter");
+let btn = document.getElementById("btnGetFullName");
 
 // create connection
 let connection = new signalR.HubConnectionBuilder()
     // .configureLogging(signalR.LogLevel.Trace)
     .configureLogging( new CustomerLogger())
-    .withUrl("/hubs/view", {transport: signalR.HttpTransportType.WebSockets | 
-        signalR.HttpTransportType.ServerSentEvents})
+    // .withUrl("/hubs/view", {transport: 
+    .withUrl("/hubs/stringtools", {transport: 
+            signalR.HttpTransportType.WebSockets | 
+            signalR.HttpTransportType.ServerSentEvents})
     .build();
+
+btn.addEventListener("click", function (evt) {
+    var firstName = (document.getElementById("inputFirstName") as  HTMLInputElement).value;
+    var lastName = (document.getElementById("inputLastName") as  HTMLInputElement).value;
+    
+    connection
+        .invoke("getFullName", firstName, lastName)
+        .then((val) => {alert(val)});
+})
 
 // on view update message from client
 connection.on("viewCountUpdate", (value: number) => {
