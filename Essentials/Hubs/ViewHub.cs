@@ -12,5 +12,11 @@ namespace Essentials.Hubs
             ViewCount++;
             await Clients.All.SendAsync("viewCountUpdate", ViewCount);
         }
+
+        public Task IncrementServerView()
+        {
+            ViewCount++;
+            return Clients.All.SendAsync("incrementView", ViewCount);
+        }
     }
 }

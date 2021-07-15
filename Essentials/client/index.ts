@@ -4,27 +4,27 @@ import {CustomerLogger} from "./loggers/customerLogger";
 // Force disable websocket
 // WebSocket = undefined;
 
-var counter = document.getElementById("viewCounter");
-let btn = document.getElementById("btnGetFullName");
+var counter = document.getElementById("viewCount");
+let btn = document.getElementById("incrementView");
 
 // create connection
 let connection = new signalR.HubConnectionBuilder()
     // .configureLogging(signalR.LogLevel.Trace)
     .configureLogging( new CustomerLogger())
-    // .withUrl("/hubs/view", {transport: 
-    .withUrl("/hubs/stringtools", {transport: 
+    .withUrl("/hubs/view", {transport: 
+    // .withUrl("/hubs/stringtools", {transport: 
             signalR.HttpTransportType.WebSockets | 
             signalR.HttpTransportType.ServerSentEvents})
     .build();
 
 btn.addEventListener("click", function (evt) {
-    var firstName = (document.getElementById("inputFirstName") as  HTMLInputElement).value;
-    var lastName = (document.getElementById("inputLastName") as  HTMLInputElement).value;
-    
-    connection
-        .invoke("getFullName", firstName, lastName)
-        .then((val) => {alert(val)});
-})
+    connection.invoke("incrementServerView");
+});
+
+connection.on("incrementView", (val) => {
+    counter.innerText = val;
+    if(val % 10 === 0) connection.off("incrementView");
+});
 
 // on view update message from client
 connection.on("viewCountUpdate", (value: number) => {
