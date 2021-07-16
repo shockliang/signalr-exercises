@@ -4,42 +4,40 @@ import {CustomerLogger} from "./loggers/customerLogger";
 // Force disable websocket
 // WebSocket = undefined;
 
-var counter = document.getElementById("viewCount");
-let btn = document.getElementById("incrementView");
+let btnJoinYellow = document.getElementById("btnJoinYellow");
+let btnJoinBlue = document.getElementById("btnJoinBlue");
+let btnJoinOrange = document.getElementById("btnJoinOrange");
+let btnTriggerYellow = document.getElementById("btnTriggerYellow");
+let btnTriggerBlue = document.getElementById("btnTriggerBlue");
+let btnTriggerOrange = document.getElementById("btnTriggerOrange");
 
 // create connection
 let connection = new signalR.HubConnectionBuilder()
     // .configureLogging(signalR.LogLevel.Trace)
     .configureLogging( new CustomerLogger())
-    .withUrl("/hubs/view", {transport: 
+    // .withUrl("/hubs/view", {transport: 
     // .withUrl("/hubs/stringtools", {transport: 
+    .withUrl("/hubs/color", {transport: 
             signalR.HttpTransportType.WebSockets | 
             signalR.HttpTransportType.ServerSentEvents})
     .build();
 
-btn.addEventListener("click", function (evt) {
-    connection.invoke("incrementServerView");
+btnJoinYellow.addEventListener("click", () => {connection.invoke("JoinGroup", "Yellow")});
+btnJoinBlue.addEventListener("click", () => {connection.invoke("JoinGroup", "Blue")});
+btnJoinOrange.addEventListener("click", () => {connection.invoke("JoinGroup", "Orange")});
+
+btnTriggerYellow.addEventListener("click", () => {connection.invoke("TriggerGroup", "Yellow")});
+btnTriggerBlue.addEventListener("click", () => {connection.invoke("TriggerGroup", "Blue")});
+btnTriggerOrange.addEventListener("click", () => {connection.invoke("TriggerGroup", "Orange")});
+
+connection.on("triggerColor", (color) => {
+    document.getElementsByTagName("body")[0].style.backgroundColor = color;
 });
 
-connection.on("incrementView", (val) => {
-    counter.innerText = val;
-    if(val % 10 === 0) connection.off("incrementView");
-});
-
-// on view update message from client
-connection.on("viewCountUpdate", (value: number) => {
-    counter.innerText = value.toString();
-});
-
-// notify server we're watching
-function notify(){
-    connection.send("notifyWatching");
-}
 
 // start the connection
 function startSuccess(){
     console.log("Connected.");
-    notify();
 }
 function startFail(){
     console.log("Connection failed.");

@@ -55,6 +55,7 @@ namespace Essentials
             {
                 endpoints.MapHub<ViewHub>("/hubs/view");
                 endpoints.MapHub<StringToolsHub>("/hubs/stringtools");
+                endpoints.MapHub<ColorHub>("/hubs/color");
                 // endpoints.MapControllers();
             });
         }
