@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Essentials.Hubs;
+using Essentials.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +28,10 @@ namespace Essentials
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddSignalR();
+            services.AddTransient<IVoteManager, VoteManager>();
+
             // services.AddSwaggerGen(c =>
             // {
             //     c.SwaggerDoc("v1", new OpenApiInfo {Title = "Essentials", Version = "v1"});
@@ -56,7 +60,8 @@ namespace Essentials
                 endpoints.MapHub<ViewHub>("/hubs/view");
                 endpoints.MapHub<StringToolsHub>("/hubs/stringtools");
                 endpoints.MapHub<ColorHub>("/hubs/color");
-                // endpoints.MapControllers();
+                endpoints.MapHub<VoteHub>("/hubs/vote");
+                endpoints.MapControllers();
             });
         }
     }
