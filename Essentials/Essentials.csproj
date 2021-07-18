@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="client\customRetryPolicy.ts" />
     <TypeScriptCompile Include="client\index.ts" />
     <TypeScriptCompile Include="client\loggers\customerLogger.ts" />
   </ItemGroup>

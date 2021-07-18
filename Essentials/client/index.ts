@@ -1,4 +1,5 @@
 import * as signalR from "@microsoft/signalr";
+import CustomRetryPolicy from "./customRetryPolicy";
 
 let pieVotes = document.getElementById("pieVotes");
 let baconVotes = document.getElementById("baconVotes");
@@ -6,7 +7,7 @@ let baconVotes = document.getElementById("baconVotes");
 // create connection
 let connection = new signalR.HubConnectionBuilder()
     .withUrl("/hubs/vote")
-    .withAutomaticReconnect([0, 10, 20, 30, 40])
+    .withAutomaticReconnect(new CustomRetryPolicy())
     .build();
 
 // client events
