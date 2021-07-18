@@ -6,6 +6,7 @@ let baconVotes = document.getElementById("baconVotes");
 // create connection
 let connection = new signalR.HubConnectionBuilder()
     .withUrl("/hubs/vote")
+    .withAutomaticReconnect()
     .build();
 
 // client events
