@@ -16,6 +16,19 @@ connection.on("updateVotes", (votes) => {
     baconVotes.innerText = votes.bacon;
 });
 
+// connection events
+connection.onreconnected((connectionId: string) => {
+    console.log(`Reconnected. connection id: ${connectionId}`);
+});
+
+connection.onreconnecting((error: Error) => {
+   console.error(`Reconnecting error`, error); 
+});
+
+connection.onclose((error: Error) => {
+   console.error(`On close`, error); 
+});
+
 // start the connection
 function startSuccess() {
     console.log("Connected.");

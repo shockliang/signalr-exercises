@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./client/customRetryPolicy.ts":
+/*!*************************************!*\
+  !*** ./client/customRetryPolicy.ts ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar CustomRetryPolicy = /** @class */ (function () {\n    function CustomRetryPolicy() {\n        this.maxRetryAttempts = 0;\n    }\n    CustomRetryPolicy.prototype.nextRetryDelayInMilliseconds = function (retryContext) {\n        console.info(\"Retry :: \" + retryContext.retryReason);\n        if (retryContext.previousRetryCount === 10)\n            return null; // count to 10 that should stop it.\n        var nextRetry = retryContext.previousRetryCount * 1000 || 1000;\n        console.info(\"Retry in \" + nextRetry + \" milliseconds\");\n        return nextRetry;\n    };\n    return CustomRetryPolicy;\n}());\nexports.default = CustomRetryPolicy;\n\n\n//# sourceURL=webpack:///./client/customRetryPolicy.ts?");
+
+/***/ }),
+
 /***/ "./client/index.ts":
 /*!*************************!*\
   !*** ./client/index.ts ***!
@@ -94,7 +106,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar signalR = __webpack_require__(/*! @microsoft/signalr */ \"./node_modules/@microsoft/signalr/dist/esm/index.js\");\nvar pieVotes = document.getElementById(\"pieVotes\");\nvar baconVotes = document.getElementById(\"baconVotes\");\n// create connection\nvar connection = new signalR.HubConnectionBuilder()\n    .withUrl(\"/hubs/vote\")\n    .withAutomaticReconnect([0, 10, 20, 30, 40])\n    .build();\n// client events\nconnection.on(\"updateVotes\", function (votes) {\n    pieVotes.innerText = votes.pie;\n    baconVotes.innerText = votes.bacon;\n});\n// start the connection\nfunction startSuccess() {\n    console.log(\"Connected.\");\n    connection.invoke(\"GetCurrentVotes\").then(function (votes) {\n        pieVotes.innerText = votes.pie;\n        baconVotes.innerText = votes.bacon;\n    });\n}\nfunction startFail() {\n    console.log(\"Connection failed.\");\n}\nconnection.start().then(startSuccess, startFail);\n\n\n//# sourceURL=webpack:///./client/index.ts?");
+eval("\nObject.defineProperty(exports, \"__esModule\", { value: true });\nvar signalR = __webpack_require__(/*! @microsoft/signalr */ \"./node_modules/@microsoft/signalr/dist/esm/index.js\");\nvar customRetryPolicy_1 = __webpack_require__(/*! ./customRetryPolicy */ \"./client/customRetryPolicy.ts\");\nvar pieVotes = document.getElementById(\"pieVotes\");\nvar baconVotes = document.getElementById(\"baconVotes\");\n// create connection\nvar connection = new signalR.HubConnectionBuilder()\n    .withUrl(\"/hubs/vote\")\n    .withAutomaticReconnect(new customRetryPolicy_1.default())\n    .build();\n// client events\nconnection.on(\"updateVotes\", function (votes) {\n    pieVotes.innerText = votes.pie;\n    baconVotes.innerText = votes.bacon;\n});\n// connection events\nconnection.onreconnected(function (connectionId) {\n    console.log(\"Reconnected. connection id: \" + connectionId);\n});\nconnection.onreconnecting(function (error) {\n    console.error(\"Reconnecting error\", error);\n});\nconnection.onclose(function (error) {\n    console.error(\"On close\", error);\n});\n// start the connection\nfunction startSuccess() {\n    console.log(\"Connected.\");\n    connection.invoke(\"GetCurrentVotes\").then(function (votes) {\n        pieVotes.innerText = votes.pie;\n        baconVotes.innerText = votes.bacon;\n    });\n}\nfunction startFail() {\n    console.log(\"Connection failed.\");\n}\nconnection.start().then(startSuccess, startFail);\n\n\n//# sourceURL=webpack:///./client/index.ts?");
 
 /***/ }),
 
