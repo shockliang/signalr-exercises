@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 
@@ -7,16 +8,18 @@ namespace Essentials.Hubs
     {
         public static int ViewCount { get; set; } = 0;
 
-        public async Task NotifyWatching()
+        public override async Task OnConnectedAsync()
         {
             ViewCount++;
             await Clients.All.SendAsync("viewCountUpdate", ViewCount);
+            await base.OnConnectedAsync();
         }
 
-        public Task IncrementServerView()
+        public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            ViewCount++;
-            return Clients.All.SendAsync("incrementView", ViewCount);
+            ViewCount--;
+            await Clients.All.SendAsync("viewCountUpdate", ViewCount);
+            await base.OnConnectedAsync();
         }
     }
 }

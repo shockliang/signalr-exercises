@@ -1,19 +1,17 @@
 import * as signalR from "@microsoft/signalr";
 import CustomRetryPolicy from "./customRetryPolicy";
 
-let pieVotes = document.getElementById("pieVotes");
-let baconVotes = document.getElementById("baconVotes");
+let counter = document.getElementById("viewCounter");
 
 // create connection
 let connection = new signalR.HubConnectionBuilder()
-    .withUrl("/hubs/vote")
+    .withUrl("/hubs/view")
     .withAutomaticReconnect(new CustomRetryPolicy())
     .build();
 
 // client events
-connection.on("updateVotes", (votes) => {
-    pieVotes.innerText = votes.pie;
-    baconVotes.innerText = votes.bacon;
+connection.on("viewCountUpdate", (value: number) => {
+    counter.innerText = value.toString();
 });
 
 // connection events
@@ -32,10 +30,6 @@ connection.onclose((error: Error) => {
 // start the connection
 function startSuccess() {
     console.log("Connected.");
-    connection.invoke("GetCurrentVotes").then((votes) => {
-        pieVotes.innerText = votes.pie;
-        baconVotes.innerText = votes.bacon;
-    });
 }
 function startFail() {
     console.log("Connection failed.");
