@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagePackExercise", "Mess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisBackplane", "RedisBackplane\RedisBackplane.csproj", "{EFFE4427-9E27-445A-8E4F-A5DC3B558D80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HostedServices", "HostedServices\HostedServices.csproj", "{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{EFFE4427-9E27-445A-8E4F-A5DC3B558D80}.Release|x64.Build.0 = Release|Any CPU
 		{EFFE4427-9E27-445A-8E4F-A5DC3B558D80}.Release|x86.ActiveCfg = Release|Any CPU
 		{EFFE4427-9E27-445A-8E4F-A5DC3B558D80}.Release|x86.Build.0 = Release|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Debug|x64.Build.0 = Debug|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Debug|x86.Build.0 = Debug|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Release|x64.ActiveCfg = Release|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Release|x64.Build.0 = Release|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Release|x86.ActiveCfg = Release|Any CPU
+		{0DAF3E1E-33A6-4B16-AB88-5E49C0514274}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
