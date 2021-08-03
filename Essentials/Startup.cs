@@ -57,7 +57,6 @@ namespace Essentials
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ViewHub>("/hubs/view");
                 endpoints.MapHub<StringToolsHub>("/hubs/stringtools");
                 endpoints.MapHub<ColorHub>("/hubs/color");
                 endpoints.MapHub<VoteHub>("/hubs/vote");
