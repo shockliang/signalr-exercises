@@ -12,7 +12,9 @@
       </thead>
       <tbody>
       <tr v-for="l in lists" :key="l.id">
-        <td>{{ l.listName }}</td>
+        <td>
+          <router-link :to="{name: 'list', params: {listId: l.id}}">{{ l.listName }}</router-link>
+        </td>
         <td>{{ l.pending }}</td>
         <td>{{ l.completed }}</td>
       </tr>
