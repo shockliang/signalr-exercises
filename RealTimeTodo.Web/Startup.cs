@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RealTimeTodo.Web.Services;
 
 namespace RealTimeTodo.Web
 {
@@ -20,6 +21,7 @@ namespace RealTimeTodo.Web
             {
                 config.RootPath = "wwwroot";
             });
+            services.AddSingleton<ITodoRepository, InMemoryToDoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
