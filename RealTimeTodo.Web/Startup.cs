@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RealTimeTodo.Web.Hubs;
 using RealTimeTodo.Web.Services;
 
 namespace RealTimeTodo.Web
@@ -21,6 +22,7 @@ namespace RealTimeTodo.Web
             {
                 config.RootPath = "wwwroot";
             });
+            services.AddSignalR();
             services.AddSingleton<ITodoRepository, InMemoryToDoRepository>();
         }
 
@@ -32,16 +34,18 @@ namespace RealTimeTodo.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSpaStaticFiles();
-            app.UseSpa(configuration =>
-            {
-                configuration.UseProxyToSpaDevelopmentServer("http://localhost:8080");
-            });
+            
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
-
+                endpoints.MapHub<ToDoHub>("/hubs/todo");
+            });
+            
+            app.UseSpaStaticFiles();
+            app.UseSpa(configuration =>
+            {
+                configuration.UseProxyToSpaDevelopmentServer("http://localhost:8080");
             });
         }
     }
