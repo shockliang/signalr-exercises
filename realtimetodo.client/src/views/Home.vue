@@ -13,10 +13,10 @@
       <tbody>
       <tr v-for="l in lists" :key="l.id">
         <td>
-          <router-link :to="{name: 'list', params: {listId: l.id}}">{{ l.listName }}</router-link>
+          <router-link :to="{name: 'list', params: {listId: l.id}}">{{ l.name }}</router-link>
         </td>
-        <td>{{ l.pending }}</td>
-        <td>{{ l.completed }}</td>
+        <td>{{ l.items | pendingCount }}</td>
+        <td>{{ l.items | completedCount }}</td>
       </tr>
       </tbody>
     </table>
@@ -26,19 +26,27 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component
-export default class Home extends Vue {
-  lists: any[] = [];
-
-  demoList () {
-    this.lists.push({ id: 0, listName: 'Foo', completed: 5, pending: 10 })
-    this.lists.push({ id: 1, listName: 'Bar', completed: 4, pending: 14 })
-    this.lists.push({ id: 2, listName: 'Walking', completed: 1, pending: 20 })
-    this.lists.push({ id: 3, listName: 'Others', completed: 0, pending: 30 })
+@Component({
+  filters: {
+    pendingCount: (value: any) => {
+      const r = value.filter((p: any) => !p.isCompleted)
+      return r.length
+    },
+    completedCount: (value: any) => {
+      const r = value.filter((p: any) => p.isCompleted)
+      return r.length
+    }
   }
+})
+export default class Home extends Vue {
+  lists: any[] = []
 
-  created () {
-    this.demoList()
+  async created () {
+    Vue.$connectionService.events.on('updatedToDoList', (values: any[]) => {
+      this.lists = values
+    })
+    await this.$connectionService.getLists()
+    console.log('Home get lists:', this.lists)
   }
 }
 </script>

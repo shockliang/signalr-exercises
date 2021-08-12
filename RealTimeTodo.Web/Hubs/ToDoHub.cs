@@ -15,9 +15,10 @@ namespace RealTimeTodo.Web.Hubs
             this.todoRepository = todoRepository;
         }
 
-        public Task<List<ToDoList>> GetLists()
+        public async Task GetLists()
         {
-            return todoRepository.GetList();
+            var result = await todoRepository.GetList();
+            await Clients.Caller.SendAsync("updatedToDoList", result);
         }
     }
 }
