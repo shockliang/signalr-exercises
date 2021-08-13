@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using RealTimeTodo.Web.Models;
 
@@ -6,7 +7,7 @@ namespace RealTimeTodo.Web.Services
 {
     public interface ITodoRepository
     {
-        Task<List<ToDoList>> GetList();
+        Task<List<ToDoListMinimal>> GetList();
     }
 
     public class InMemoryToDoRepository : ITodoRepository
@@ -22,9 +23,9 @@ namespace RealTimeTodo.Web.Services
             Lists.Add(new ToDoList {Id = 4, Name = "Eating", Items = new List<ToDoItem>()});
         }
 
-        public Task<List<ToDoList>> GetList()
+        public Task<List<ToDoListMinimal>> GetList()
         {
-            return Task.FromResult(Lists);
+            return Task.FromResult(Lists.Select(x => x.GetMinimal()).ToList());
         }
     }
 }

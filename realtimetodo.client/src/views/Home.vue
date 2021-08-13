@@ -15,8 +15,8 @@
         <td>
           <router-link :to="{name: 'list', params: {listId: l.id}}">{{ l.name }}</router-link>
         </td>
-        <td>{{ l.items | pendingCount }}</td>
-        <td>{{ l.items | completedCount }}</td>
+        <td>{{ l.pending }}</td>
+        <td>{{ l.completed }}</td>
       </tr>
       </tbody>
     </table>
@@ -26,18 +26,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-@Component({
-  filters: {
-    pendingCount: (value: any) => {
-      const r = value.filter((p: any) => !p.isCompleted)
-      return r.length
-    },
-    completedCount: (value: any) => {
-      const r = value.filter((p: any) => p.isCompleted)
-      return r.length
-    }
-  }
-})
+@Component
 export default class Home extends Vue {
   lists: any[] = []
 
