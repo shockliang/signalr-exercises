@@ -30,6 +30,62 @@ export default class ToDoService {
       setTimeout(async () => await this.getLists(), 500)
     }
   }
+
+  async getListData (id: number) {
+    if (this.connection.state === HubConnectionState.Connected) {
+      await this.connection.send('GetList', id)
+    } else {
+      setTimeout(async () => await this.getListData(id), 500)
+    }
+  }
+
+  async subscribeToCountUpdates () {
+    if (this.connection.state === HubConnectionState.Connected) {
+      await this.connection.send('SubscribeToCountUpdates')
+    } else {
+      setTimeout(async () => await this.subscribeToCountUpdates(), 500)
+    }
+  }
+
+  async unsubscribeToCountUpdates () {
+    if (this.connection.state === HubConnectionState.Connected) {
+      await this.connection.send('UnsubscribeToCountUpdates')
+    } else {
+      setTimeout(async () => await this.unsubscribeToCountUpdates(), 500)
+    }
+  }
+
+  async subscribeToListUpdates (id: number) {
+    if (this.connection.state === HubConnectionState.Connected) {
+      await this.connection.send('SubscribeToListUpdates', id)
+    } else {
+      setTimeout(async () => await this.subscribeToListUpdates(id), 500)
+    }
+  }
+
+  async unsubscribeToListUpdates (id: number) {
+    if (this.connection.state === HubConnectionState.Connected) {
+      await this.connection.send('UnsubscribeToListUpdates', id)
+    } else {
+      setTimeout(async () => await this.unsubscribeToListUpdates(id), 500)
+    }
+  }
+
+  async addToDoItem (listId: number, text: string) {
+    if (this.connection.state === HubConnectionState.Connected) {
+      await this.connection.send('AddToDoItem', listId, text)
+    } else {
+      setTimeout(async () => await this.addToDoItem(listId, text), 500)
+    }
+  }
+
+  async toggleToDoItem (listId: number, itemId: number) {
+    if (this.connection.state === HubConnectionState.Connected) {
+      await this.connection.send('ToggleToDoItem', listId, itemId)
+    } else {
+      setTimeout(async () => await this.toggleToDoItem(listId, itemId), 500)
+    }
+  }
 }
 
 export const ConnectionServices: PluginObject<any> = {
