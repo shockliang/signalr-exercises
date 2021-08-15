@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,9 @@ namespace RealTimeTodo.Web.Services
     public interface ITodoRepository
     {
         Task<List<ToDoListMinimal>> GetList();
+        Task<ToDoList> GetList(int id);
+        Task AddToDoItem(int listId, string text);
+        Task ToggleToDoItem(int listId, int itemId);
     }
 
     public class InMemoryToDoRepository : ITodoRepository
@@ -26,6 +30,25 @@ namespace RealTimeTodo.Web.Services
         public Task<List<ToDoListMinimal>> GetList()
         {
             return Task.FromResult(Lists.Select(x => x.GetMinimal()).ToList());
+        }
+
+        public Task<ToDoList> GetList(int id)
+        {
+            return Task.FromResult(Lists.FirstOrDefault(x => x.Id.Equals(id)));
+        }
+
+        public async Task AddToDoItem(int listId, string text)
+        {
+            var getList = await GetList(listId);
+            if (getList == null) throw new NullReferenceException("Invalid list id");
+            getList.AddItem(text);
+        }
+
+        public async Task ToggleToDoItem(int listId, int itemId)
+        {
+            var getList = await GetList(listId);
+            if (getList == null) throw new NullReferenceException("Invalid list id");
+            getList.Toggle(itemId);
         }
     }
 }
