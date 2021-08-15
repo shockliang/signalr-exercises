@@ -8,7 +8,7 @@ namespace RealTimeTodo.Web.Services
 {
     public interface ITodoRepository
     {
-        Task<List<ToDoListMinimal>> GetList();
+        Task<List<ToDoListMinimal>> GetLists();
         Task<ToDoList> GetList(int id);
         Task AddToDoItem(int listId, string text);
         Task ToggleToDoItem(int listId, int itemId);
@@ -27,7 +27,7 @@ namespace RealTimeTodo.Web.Services
             Lists.Add(new ToDoList {Id = 4, Name = "Eating", Items = new List<ToDoItem>()});
         }
 
-        public Task<List<ToDoListMinimal>> GetList()
+        public Task<List<ToDoListMinimal>> GetLists()
         {
             return Task.FromResult(Lists.Select(x => x.GetMinimal()).ToList());
         }
