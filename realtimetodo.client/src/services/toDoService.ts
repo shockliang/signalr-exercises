@@ -17,6 +17,10 @@ export default class ToDoService {
     this.connection.on('updatedToDoList', (values: any[]) => {
       this.events.emit('updatedToDoList', values)
     })
+
+    this.connection.on('updatedListData', (value: any) => {
+      this.events.emit('updatedListData', value)
+    })
   }
 
   async start () {

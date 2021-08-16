@@ -35,7 +35,12 @@ export default class Home extends Vue {
       this.lists = values
     })
     await this.$connectionService.getLists()
+    await this.$connectionService.subscribeToCountUpdates()
     console.log('Home get lists:', this.lists)
+  }
+
+  async destroyed () {
+    await this.$connectionService.unscribeToCountUpates()
   }
 }
 </script>
