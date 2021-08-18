@@ -40,7 +40,7 @@ export default class Home extends Vue {
   }
 
   async destroyed () {
-    await this.$connectionService.unscribeToCountUpates()
+    await this.$connectionService.unsubscribeToCountUpdates()
   }
 }
 </script>
