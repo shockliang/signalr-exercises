@@ -12,7 +12,9 @@
       <tbody>
       <tr v-for="i in list.items" :key="i.id">
         <td>
-          <input type="checkbox" v-model="i.isCompleted"/>
+          <input type="checkbox"
+                 v-model="i.isCompleted"
+                 @change="toggleToDoItem(i.id)"/>
         </td>
         <td>{{ i.text }}</td>
       </tr>
@@ -46,6 +48,10 @@ export default class List extends Vue {
 
     Vue.$connectionService.addToDoItem(this.listId, this.newItemText)
     this.newItemText = ''
+  }
+
+  toggleToDoItem (itemId: number) {
+    Vue.$connectionService.toggleToDoItem(this.listId, itemId)
   }
 
   created () {
